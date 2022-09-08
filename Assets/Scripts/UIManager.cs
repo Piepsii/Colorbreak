@@ -5,15 +5,15 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     public VoidEventChannelSO puzzleSolvedEC;
-    public GameObject gameOverUI;
+    public Animator puzzleSolvedAnimator;
 
     void Start()
     {
-        puzzleSolvedEC.OnEventRaised += ActivateGameOverUI;
+        puzzleSolvedEC.OnEventRaised += TriggerPuzzleSolvedUI;
     }
 
-    void ActivateGameOverUI()
+    void TriggerPuzzleSolvedUI()
     {
-        gameOverUI.SetActive(true);
+        puzzleSolvedAnimator.SetTrigger("in");
     }
 }
