@@ -11,6 +11,14 @@ public class Cube : MonoBehaviour
     public bool blockedLeft = false;
     public bool blockedRight = false;
 
+    public float moveSpeed = 0.2f;
+    private float moveCounter = 0f;
+    private float rotatedSpeed;
+    private float rotatedCounter;
+    private bool isMoving = false, isRotated = false;
+    private Vector3 currentPosition, nextPosition, movedPosition;
+    private Quaternion currentRotation, nextRotation, rotatedRotation;
+
     private Vector2Int position;
 
     KeyCode keyForward = KeyCode.W;
@@ -22,12 +30,33 @@ public class Cube : MonoBehaviour
     KeyCode altKeyBack = KeyCode.DownArrow;
     KeyCode altKeyRight = KeyCode.RightArrow;
 
+    public Vector2Int Position { get => position; }
+
+    public void Rotate(RotationAxis axis, int amount)
+    {
+        isRotated = true;
+        switch (axis)
+        {
+            case RotationAxis.X:
+                rotatedRotation = Quaternion.Euler(new Vector3(amount * 90, 0, 0)) * currentRotation;
+                break;
+            case RotationAxis.Y:
+                rotatedRotation = Quaternion.Euler(new Vector3(0, amount * 90, 0)) * currentRotation;
+                break;
+            case RotationAxis.Z:
+                rotatedRotation = Quaternion.Euler(new Vector3(0, 0, amount * 90)) * currentRotation;
+                break;
+        }
+
+    }
+
     private void Awake()
     {
+        rotatedSpeed = moveSpeed;
         position = new Vector2Int(Mathf.RoundToInt(transform.parent.position.x), Mathf.RoundToInt(transform.parent.position.z));
     }
 
-    void Update()
+    private void Update()
     {
         CheckSurroundings();
         Move();
@@ -60,26 +89,64 @@ public class Cube : MonoBehaviour
 
     private void Move()
     {
-        if ((Input.GetKeyDown(keyForward) || Input.GetKeyDown(altKeyForward)) && !blockedForward)
+        if (isMoving)
         {
-            transform.parent.Translate(new Vector3(0, 0, 1));
-            transform.Rotate(new Vector3(90, 0, 0), Space.World);
+            if(moveCounter < moveSpeed)
+            {
+                moveCounter += Time.deltaTime;
+            }
+            else
+            {
+                isMoving = false;
+            }
+
+            transform.parent.position = Vector3.Lerp(currentPosition, nextPosition, moveCounter / moveSpeed);
+            transform.rotation = Quaternion.Lerp(currentRotation, nextRotation, moveCounter / moveSpeed);
         }
-        else if ((Input.GetKeyDown(keyLeft) || Input.GetKeyDown(altKeyLeft)) && !blockedLeft)
+        else if (isRotated)
         {
-            transform.parent.Translate(new Vector3(-1, 0, 0));
-            transform.Rotate(new Vector3(0, 0, 90), Space.World);
+            if (rotatedCounter < rotatedSpeed)
+            {
+                rotatedCounter += Time.deltaTime;
+            }
+            else
+            {
+                isRotated = false;
+            }
+            transform.rotation = Quaternion.Lerp(currentRotation, rotatedRotation, rotatedCounter / rotatedSpeed);
         }
-        else if ((Input.GetKeyDown(keyRight) || Input.GetKeyDown(altKeyRight)) && !blockedRight)
+        else
         {
-            transform.parent.Translate(new Vector3(1, 0, 0));
-            transform.Rotate(new Vector3(0, 0, -90), Space.World);
+            position = new Vector2Int(Mathf.RoundToInt(transform.parent.position.x), Mathf.RoundToInt(transform.parent.position.z));
+            moveCounter = 0f;
+            rotatedCounter = 0f;
+            currentPosition = transform.parent.position;
+            currentRotation = transform.rotation;
+            if ((Input.GetKeyDown(keyForward) || Input.GetKeyDown(altKeyForward)) && !blockedForward)
+            {
+                nextPosition = transform.parent.position + new Vector3(0, 0, 1);
+                nextRotation = Quaternion.Euler(new Vector3(90, 0, 0)) * transform.rotation;
+                isMoving = true;
+            }
+            else if ((Input.GetKeyDown(keyLeft) || Input.GetKeyDown(altKeyLeft)) && !blockedLeft)
+            {
+                nextPosition = transform.parent.position + new Vector3(-1, 0, 0);
+                nextRotation = Quaternion.Euler(new Vector3(0, 0, 90)) * transform.rotation;
+                isMoving = true;
+            }
+            else if ((Input.GetKeyDown(keyRight) || Input.GetKeyDown(altKeyRight)) && !blockedRight)
+            {
+                nextPosition = transform.parent.position + new Vector3(1, 0, 0);
+                nextRotation = Quaternion.Euler(new Vector3(0, 0, -90)) * transform.rotation;
+                isMoving = true;
+            }
+            else if ((Input.GetKeyDown(keyBack) || Input.GetKeyDown(altKeyBack)) && !blockedBack)
+            {
+                nextPosition = transform.parent.position + new Vector3(0, 0, -1);
+                nextRotation = Quaternion.Euler(new Vector3(-90, 0, 0)) * transform.rotation;
+                isMoving = true;
+            }
         }
-        else if ((Input.GetKeyDown(keyBack) || Input.GetKeyDown(altKeyBack)) && !blockedBack)
-        {
-            transform.parent.Translate(new Vector3(0, 0, -1));
-            transform.Rotate(new Vector3(-90, 0, 0), Space.World);
-        }
-        position = new Vector2Int(Mathf.RoundToInt(transform.parent.position.x), Mathf.RoundToInt(transform.parent.position.z));
+
     }
 }

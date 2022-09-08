@@ -129,4 +129,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: 0
   database: {fileID: 11400000, guid: 277225b585ebf8846a5b0c4c1c6fd869, type: 2}
-  wallMaterialEC: {fileID: 11400000, guid: cd927cfc0b495ef48a59895201c779e2, type: 2}

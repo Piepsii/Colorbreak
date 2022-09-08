@@ -87,6 +87,7 @@ MonoBehaviour:
   blockedBack: 0
   blockedLeft: 0
   blockedRight: 0
+  moveSpeed: 0.2
 --- !u!1001 &36065751643053611
 PrefabInstance:
   m_ObjectHideFlags: 0
