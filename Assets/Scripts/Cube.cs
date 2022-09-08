@@ -36,22 +36,22 @@ public class Cube : MonoBehaviour
     private void CheckSurroundings()
     {
         blockedForward = blockedBack = blockedLeft = blockedRight = false;
-        var north = Grid.instance.GetTile(new Vector2Int(position.x, position.y + 1));
+        Tile north = Grid.instance.GetTile(new Vector2Int(position.x, position.y + 1));
         if (north.isBlocked)
         {
             blockedForward = true;
         }
-        var south = Grid.instance.GetTile(new Vector2Int(position.x, position.y - 1));
+        Tile south = Grid.instance.GetTile(new Vector2Int(position.x, position.y - 1));
         if (south.isBlocked)
         {
             blockedBack = true;
         }
-        var west = Grid.instance.GetTile(new Vector2Int(position.x - 1, position.y));
+        Tile west = Grid.instance.GetTile(new Vector2Int(position.x - 1, position.y));
         if (west.isBlocked)
         {
             blockedLeft = true;
         }
-        var east = Grid.instance.GetTile(new Vector2Int(position.x + 1, position.y));
+        Tile east = Grid.instance.GetTile(new Vector2Int(position.x + 1, position.y));
         if (east.isBlocked)
         {
             blockedRight = true;

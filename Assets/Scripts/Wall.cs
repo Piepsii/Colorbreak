@@ -15,6 +15,11 @@ public class Wall : MonoBehaviour
         SetMaterial();
     }
 
+    private void OnValidate()
+    {
+        SetMaterial();
+    }
+
     private void Start()
     {
         position = new Vector2Int(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));

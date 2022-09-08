@@ -6,8 +6,10 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance { get { return instance; } }
     public List<GameObject> levels;
-    public GameObject activeLevel;
+    public GameObject activeLevelGO;
+    public Level activeLevel;
     public int levelIndex = 0;
+    public VoidEventChannelSO gameOverEC;
 
     private static LevelManager instance;
 
@@ -18,13 +20,22 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        activeLevel = Instantiate(levels[levelIndex]);
+        activeLevelGO = Instantiate(levels[levelIndex]);
+        activeLevel = activeLevelGO.GetComponent<Level>();
     }
 
     public void NextLevel()
     {
         levelIndex++;
-        Destroy(activeLevel);
-        activeLevel = Instantiate(levels[levelIndex]);
+        if(levelIndex < levels.Count)
+        {
+            Destroy(activeLevelGO);
+            activeLevelGO = Instantiate(levels[levelIndex]);
+            activeLevel = activeLevelGO.GetComponent<Level>();
+        }
+        else
+        {
+            gameOverEC.RaiseEvent();
+        }
     }
 }

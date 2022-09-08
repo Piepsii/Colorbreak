@@ -47,4 +47,8 @@ MonoBehaviour:
   levels:
   - {fileID: 1401440404640344354, guid: 559dae94160c6f144bff3c7a4ff28367, type: 3}
   - {fileID: 1401440404640344354, guid: 35124ff26ffbc644cbdd6709bf88cf7a, type: 3}
+  - {fileID: 1401440404640344354, guid: 9cb76cf847785c74183b269f22d99bef, type: 3}
+  activeLevelGO: {fileID: 0}
   activeLevel: {fileID: 0}
+  levelIndex: 0
+  gameOverEC: {fileID: 11400000, guid: 23bafabe13fc5654d945be7e699e616e, type: 2}

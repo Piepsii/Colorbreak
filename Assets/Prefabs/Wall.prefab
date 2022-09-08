@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5803306512533590115}
   - component: {fileID: 1021712964645772902}
   m_Layer: 0
-  m_Name: Door
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -129,3 +129,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: 0
   database: {fileID: 11400000, guid: 277225b585ebf8846a5b0c4c1c6fd869, type: 2}
+  wallMaterialEC: {fileID: 11400000, guid: cd927cfc0b495ef48a59895201c779e2, type: 2}
